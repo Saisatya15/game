@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta name="viewport" 
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <title>Win your cash</title>
+</head>
+<script >
+ function get(t) {
+    return document.querySelector(t)
+}
+function cards(lv) {
+   return Number(Math.floor(lv/7)+1)
+}
+function level_up_cost(t) {
+    var re=0;
+    for (var i=0;i<t;i++){
+        re+=i;
+    }
+     return ((re)*(t))+t
+}
+function randint(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}
+function clr(){
+   var ft= prompt("Type  'yes' to continue")
+   if(ft=="yes"){
+       reset();
+       document.location.reload();
+   }
+}
+function play_cost(lv) {
+
+  return  Math.floor((lv*5)/2);
+  
+}
+var attempts=0;
+</script>
+<style>
+    body{
+        margin:0px;
+        overflow:hidden;       
+    }
+    
+#body {
+    background-color: #2b96ff;
+    height: 705px;
+    width: 360px;
+    overflow:hidden; 
+}  
+#profile,#help{position: relative;left:4vw;display: flex;
+    align-items: center;
+    justify-content: center;}
+#help{background:#2b2eff;height:100%;aspect-ratio:1/1;border-radius:50%;} 
+table{}
+thead{max-height: 10px; background:;text-align:center;}
+td{
+   width:33wv ;
+//   display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#play_ground_display{
+    height: 350px;
+    width: 100%;
+    background-color:#ffc880;
+    border-radius:10px;
+}
+.coin{
+    
+ //   display:none;
+    
+
+    height: 16px;
+    
+    aspect-ratio:1/1;
+    background : gold;
+    border-radius:50%;
+    
+    transform-style: preserve-3d;
+    transform: rotateY(0deg) rotateX(0deg) rotateZ(60deg);
+    animation: rotate 5s linear infinite;
+    box-shadow: 0px 0px 0 rgb(246,184,0),
+                 -1px -1px 0 rgb(238,176,0),
+                 -2px -2px 0 rgb(229,167,0),
+                 -3px -3px 0 rgb(221,159,0),
+                 -4px -4px 0 rgb(212,150,0)
+                  
+}  
+#play_ground_display{
+    
+}
+#play_screen{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width:350px;
+    transform: translateY(600px);
+    transition: transform .95s linear;
+}
+</style>
+<style>            
+    
+.card{
+      display:flex;
+    margin:10px;
+          
+     position:relative;
+  //  top:120px;
+   //  left:50px;    
+     width:100px;
+     
+     font-size:40px;
+ color: #07ffde;
+ font-family: "Arial Black", Gadget, sans-serif;
+     
+     
+     border-radius:10%;
+     background-color:#E0E5EC;
+  box-shadow: 3px 3px 6px rgb(163,177,198), -9px -9px 16px    rgba(255,255,255, 0.5);     
+  
+     align-items: center;
+     justify-content: center;
+     aspect-ratio: 3/4;
+     transform-style: preserve-3d;
+     transform: rotateY(180deg) rotateX(0deg) rotateZ(0deg);
+    
+     transition: transform .95s linear
+    }    
+.crd{    
+     position: absolute;
+     top:0px;
+     left:0px;
+     height:inherit;
+     aspect-ratio:inherit;
+ } 
+ 
+.ltr_vlu{
+ transform: translateZ(1px);
+  
+ text-shadow: 0px 0px 0 rgb(-15,233,200),
+                 -1px 0px 0 rgb(-37,211,178),
+                 -2px 0px 0 rgb(-59,189,156)
+}
+.crdfr{
+     position: absolute;
+     top:0px;
+     left:0px;
+     height:inherit;
+     aspect-ratio:inherit;
+     transform: translateZ(91px);
+     background-color:#0018ff;
+ }
+</style>
+<body>
+<div id="body">
+ <button id="flsc" style="position: absolute;top:1px;left:140px"> full screen </button>
+  <table style="height: 72%;width: 100%;margin:0px;">
+    <thead>
+                 <td >
+       <div id="profile" style="background:#2b2eff;height:50px;aspect-ratio:1/1;border-radius:50%;"><b onclick="clr()">reset</b></div>
+    </td>
+   <td  style="border-radius:60%; background:#ffffff">
+   <h3>Win Your Luck</h3>
+  </td>
+  <td >
+    <div id="help" style="background:#2020ff;aspect-ratio:1/1;border-radius:50%;width:50px;height:50px;color: yellow">Help</div>   
+       </td>
+  
+    </thead>
+   <tbody>
+       <tr>
+           <td colspan="10" style="height:0px; display:; align-items: center;justify-content: center;">
+   <big onclick="level_up()">Level&nbsp&nbsp<b id="level">1</b></big><i style="position:absolute;right:20px;">Next Level requires <span id="level_up_cost">10</span> coins</i>
+           </td>
+       </tr>
+       <tr>
+           <td colspan="3" id="play_ground_display" style="overflow:hidden"><p style="position: absolute;top:80px">Attempts <b id="attempts"></b></p>
+           <p id="notice" style="color:red; position: absolute;top:120px"></p>
+               <div id="play_screen">
+                  
+               </div>
+               </td>
+       </tr>
+       </table>
+       <table style="width: 100%;height:7vh;">
+       <tr>
+           
+        <td style="background:;width: 30%;">
+          <div style="height:65% ;width:100%; background:;">
+              <table>
+                  <tr>
+                      <td>
+              <div class="coin"></div>            
+                      </td>
+                      <td>
+             <b id="coins" style="color:gold">100</b>       
+                      </td>
+                  </tr>
+              </table>  
+                  
+              </div>
+           </td>
+      <td style="border-radius:10%;background:orange;text-align:center">
+ Play cost is  &nbsp&nbsp <b id="play_cost"> 2</b></div>
+      </td>
+    <td style="background:lightgreen;width: 20%;">
+        <button id="play" style="height:100%;width:100%;display:;font-size:20px;" onclick="play()">Play</button>
+    </td>
+       </tr>
+   </tbody> 
+</table> 
+<div style="position:relative;left:140px;top:2px;height:80px;width:80px; background:blue;border-radius:0px 0px 30% 30%;text-align: center;" ondblclick="withdraw()"><b id="dropped" style="color:gold;position:relative;bottom:-100px;text-align:center">0</b></div>
+
+<button style="position:relative;bottom:50px;left :30px;height:40px;width:70px" onclick="drop()">Drop</button>
+</div>
+
+<script>
+    
+    function enterFullScreen(element) {
+  if(element.requestFullscreen) {
+    element.requestFullscreen();
+  }else if (element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();     // Firefox
+  }else if (element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();  // Safari
+  }else if(element.msRequestFullscreen) {
+    element.msRequestFullscreen();    
+  }
+};
+
+
+    let btn = document.getElementById("flsc");
+btn.addEventListener("click", function(){
+  let videoEle = document.querySelector('#body');
+  enterFullScreen(videoEle);
+  this.style.display="none"
+});
+
+document.addEventListener('fullscreenchange', (event) => {
+  if (document.fullscreenElement) {
+    console.log('Entered fullscreen:', document.fullscreenElement);
+  } else {
+    console.log('Exited fullscreen.');
+  }
+});
+
+</script>
+<script>
+//var card_checked=false;
+get("#level_up_cost").innerText=level_up_cost(2)
+function notice(h){
+    get("#notice").innerText=h;
+    myTimeout = setTimeout(function() {
+        get("#notice").innerText="";
+    },700);
+}
+
+function drop(){
+let amo =Number(prompt("Amount you want to dropp"));
+   let cn = Number(get("#dropped").innerText)
+  if (get("#coins").innerText-amo >=0 ) {
+   get("#coins").innerText-=amo;
+   get("#dropped").innerText=cn+amo;
+   update();
+   }else{
+       notice (" sorry..! You don't have enough coin")
+      
+   }
+}
+
+function withdraw(){
+let amo =Number(prompt("Amount you want to wothdraw"));
+   let cn = Number(get("#coins").innerText)
+   get("#dropped").innerText-=amo;
+   get("#coins").innerText=cn+amo;
+   update();
+}
+
+
+function level_up(){
+let level=Number(get("#level").innerText);
+
+let lvcost=level_up_cost(level+1)
+if(Number(get("#coins").innerText)-lvcost>=0 ){
+get("#coins").innerText-=lvcost;
+
+get("#play_cost").innerText=play_cost(level+1);
+
+
+get("#level").innerText=level+1;
+get("#level_up_cost").innerText=level_up_cost(level+2);
+update();
+}else{
+   notice("Sorry 😔 You don't have enough coins ")
+   
+}
+}
+ function carding(t){
+      
+let card=document.createElement("div");
+card.setAttribute("class","card");
+
+let crd=document.createElement("div");
+crd.setAttribute("class","crd");
+
+let crdf=document.createElement("div");
+crdf.setAttribute("class","crdf");
+
+let ltrvl=document.createElement("b");
+ltrvl.setAttribute("class","ltr_vlu");
+ltrvl.innerText=t;
+
+card.appendChild(crd);
+card.appendChild(crdf);
+card.appendChild(ltrvl);
+
+get("#play_screen").appendChild(card)
+}    //carding ()
+
+
+
+var card_checked= true;  
+
+
+
+    
+function play(){
+let playcost=get("#play_cost");
+if ( Number(coins.innerText)-Number(playcost.innerText) >= 0 ){
+if(card_checked==true){
+
+card_checked=false;
+attempts+=1;
+var att=attempts;
+
+
+      
+get("#play_screen").innerHTML="";
+get("#play_screen").style.transform="translateY(600px)";
+let coins=get("#coins");
+
+coins.innerText-=Number(playcost.innerText);
+get("#attempts").innerText=attempts 
+let level=Number(get("#level").innerText);
+update();
+for(let step = 0; step < cards(level); step++) {
+var vlu=randint(0,level*5+1);
+  carding(vlu);
+}  //for(let step = 0; step
+     get("#play_screen").style.transform="translateY(0px)";
+   
+let crd=document.querySelectorAll('.card');
+crd.forEach(item => {
+  item.addEventListener('click', event => {
+   
+    if(card_checked==false ) {
+let coins=get("#coins");
+get("#coins").innerText=Number(coins.innerText)+vlu;
+update();
+item.style.background="blue";  
+
+crd.forEach(box => {
+box.style.transform="rotateY(0deg) rotateX(0deg) rotateZ(0deg)";
+box.style.pointerEvents="none";
+});  //crd.forEach(box
+
+
+ myTimeout = setTimeout(function() {
+ if(att==attempts){
+get("#play_screen").style.transform="translateY(400px)";
+}
+      }, 3000);
+card_checked=true; 
+
+    }  //  if(card_checked==false)
+
+})     //item.addEventListener
+
+})  //crd.forEach(item
+
+}   //  if(card_checked==true){
+else{
+    notice("You are not Checked your lottery yet....!");
+}
+}else{
+    notice("sorry..! You don't have enough coins")
+}
+}    //play()
+
+</script>
+Scroll down 
+<script >
+ 
+  //   var u=notice(56)
+ //notice(u)
+   
+ function getData(){
+
+     var id="1";
+//var dt = "a";
+
+const request = indexedDB.open('lottery', 1);
+request.onerror = (event) => {
+    console.error(`Database error: ${event.target.errorCode}`);
+};
+
+request.onupgradeneeded = function(event) {
+var db = event.target.result;
+if(!db.objectStoreNames.contains('dashboard')) { 
+var dash= db.createObjectStore("dashboard",{ keypath : "id",autoIncrement: false });  
+
+    //dash.createIndex('id', 'id',{ unique:true });
+    
+  dash.createIndex('attempts', 'attempts',{ unique: false });
+   dash.createIndex('level', 'level',{ unique: false });
+  dash.createIndex('dropped', 'dropped',{ unique: false });
+  dash.createIndex('stocks', 'stocks',{ unique: false });
+  }
+  
+ var objectStore = dash;  
+  objectStore.transaction.oncomplete = (event) => {
+//Store values in the newlcreatedobjectStore.
+ 
+const customerObjectStore = db.transaction("dashboard", "readwrite").objectStore("dashboard"); 
+
+var customer ={"id":"1","attempts":0,"level":1,"drpped":0,"stock":100}
+ 
+customerObjectStore.add(customer,"1"); 
+ };   //tran    compl
+ } //on upgr need
+    
+request.onsuccess = (event) => {
+    // add implementation here
+let db = event.target.result;
+const txn = db.transaction('dashboard', 'readonly');
+    const store = txn.objectStore('dashboard');
+    let query = store.get(id);
+    query.onsuccess = (event)  => {
+        if (!event.target.result) {
+            console.log(`The contact with ${id} not found`);
+        } else {
+    var y = event.target.result ;
+   
+  dt= JSON.stringify(event.target.result); 
+ // console.log(dt);
+get("#coins").innerText=y.stock;
+get("#attempts").innerText=y.attempts;
+get("#dropped").innerText=y.drpped;
+get("#level").innerText=y.level;
+get("#play_cost").innerText=play_cost(Number(y.level));
+get("#level_up_cost").innerText=level_up_cost(y.level+1)
+        } //if else
+    } //query success 
+    query.onerror = (event) => {
+        console.log(event.target.errorCode);
+    }//query error
+    txn.oncomplete = function () {
+        db.close();
+    };//txn complete 
+  }  
+}
+
+getData();
+
+function datupdate(attempts=0,level=0,dropped=0,stock=0){
+ var scoreboard = {
+        "id":"1",
+        "attempts":attempts,    
+        "level":level,
+        "drpped":dropped,
+        "stock":stock
+        }
+var request = window.indexedDB.open("lottery", 1);
+request.onerror = function(event) {
+    ("error: "+JSON.stringify(this));
+         };
+ request.onupgradeneeded = function(event) {
+var db = event.target.result;
+if(!db.objectStoreNames.contains('dashboard')) { 
+var dash= db.createObjectStore("dashboard",{ keypath : "id",autoIncrement: false });  
+
+    //dash.createIndex('id', 'id',{ unique:true });
+  dash.createIndex('attempts', 'attempts',{ unique: false });
+   dash.createIndex('level', 'level',{ unique: false });
+  dash.createIndex('dropped', 'dropped',{ unique: false });
+  dash.createIndex('stocks', 'stocks',{ unique: false });
+  }
+ var objectStore = dash;
+  objectStore.transaction.oncomplete = (event) => {
+//Store values in the newlcreatedobjectStore.
+const customerObjectStore = db.transaction("dashboard", "readwrite").objectStore("dashboard"); 
+var customer ={"id":"1","attempts":100,"level":0,"drpped":0,"stock":0}
+customerObjectStore.add(customer,"1"); 
+ };   //tran    compl
+         } //on upgr need
+request.onsuccess = function(event) {
+         var db = request.result;
+            console.log("success: "+JSON.stringify(db)+"fff"); 
+ var transaction= db.transaction(["dashboard"], "readwrite"); 
+var objectStore=transaction.objectStore("dashboard").put(scoreboard,"1");
+//console.log(JSON.stringify(objectStore));
+        objectStore.transaction.oncomplete = (event) => {
+//Store values in the newl createdobjectStore.
+const customerObjectStore = db.transaction("dashboard", "readwrite").objectStore("dashboard"); 
+const request = db.transaction(["dashboard"], "readwrite").objectStore("dashboard");
+request.onsuccess = (event) => {
+  console.log(JSON.stringify(request.result)+99988)
+};
+customerObjectStore.add(scoreboard,"1"); 
+ };   //tran    compl     
+         };   //on success 
+         
+request.onupgradeneeded = function(event) {
+var db = event.target.result;
+if(!db.objectStoreNames.contains('dashboard')) { 
+var dash= db.createObjectStore("dashboard",{ keypath : "id",autoIncrement: false });  
+
+    //dash.createIndex('id', 'id',{ unique:true });
+    
+  dash.createIndex('attempts', 'attempts',{ unique: false });
+   dash.createIndex('level', 'level',{ unique: false });
+  dash.createIndex('dropped', 'dropped',{ unique: false });
+  dash.createIndex('stocks', 'stocks',{ unique: false });
+  }// if db 
+  
+ var objectStore = dash;
+  
+  objectStore.transaction.oncomplete = (event) => {
+//Store values in the newlcreatedobjectStore.
+ 
+const customerObjectStore = db.transaction("dashboard", "readwrite").objectStore("dashboard"); 
+
+var customer ={"id":"1","attempts":0,"level":0,"drpped":0,"stock":100}
+ 
+customerObjectStore.add(customer,"1"); 
+ };   //tran    compl
+ } //on upgr need   
+}  //updt
+
+
+
+function update(){
+    var att= Number(get("#attempts").innerText);
+ var lv = Number(get("#level").innerText);
+    var drpd =  Number(get("#dropped").innerText);
+    var stk = Number(get("#coins").innerText);
+    
+    
+    datupdate(attempts=att,level=lv,dropped=drpd,stock=stk);
+}
+
+
+
+
+    
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+function reset(){
+    const DBDeleteRequest = window.indexedDB.deleteDatabase("lottery");
+
+DBDeleteRequest.onerror = (event) => {
+  console.error("Error deleting database.");
+};
+
+DBDeleteRequest.onsuccess = (event) => {
+  console.log("Database deleted successfully");
+   } 
+
+
+     
+    
+
+
+
+    const promise = indexedDB.databases();
+promise.then((databases) => {
+
+});
+
+get("#coins").innerText=100;
+get("#attempts").innerText=0;
+get("#dropped").innerText=0;
+("#dropped").innerText=1;
+}
+
+</script>
+</body>
+</html>
